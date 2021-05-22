@@ -53,13 +53,19 @@
       <div class="text-h5 q-mb-lg text-white text-center">유저들의 펀딩 현황을 살펴보세요 !</div>
 
       <div class="row items-center">
-        <div v-for="fundChild in state.fundList" v-bind:key="fundChild.fund.name" class="col-4 col-sm-6">
+        <div v-for="fundChild in state.fundList" v-bind:key="fundChild.id" class="col-4 col-sm-6">
           <q-card flat>
             <q-card-section class="bg-indigo text-white">
               <div class="row items-center no-wrap">
                 <div class="col">
                   <div class="q-mb-sm text-h4 text-amber text-weight-bold">펀딩명 : {{ fundChild.fund.name }}</div>
-                  <div class="text-subtitle1 text-weight-bold">펀딩 상태 : {{ convertFundStr(fundChild.fund.status) }}</div>
+                  <div class="text-subtitle1 text-weight-bold">
+                    펀딩 상태 :
+                    {{
+                      convertFundStr(fundChild.fund.status,
+                        fundChild.expiredTime,
+                        convertAmount(fundChild.fund.totalAmount, fundChild.fund.goalAmount))
+                    }}</div>
                   <div class="text-subtitle1 text-weight-bold">펀딩 종료 시간 : {{
                       Unix_timestamp(fundChild.fund.deadline)
                     }}
@@ -70,15 +76,16 @@
                   </div>
                 </div>
                 <apex-multiple-radial-bars
-                  :series="[convertData(fundChild.fund.totalAmount, fundChild.fund.goalAmount)]"/>
+                  :series="[convertAmount(fundChild.fund.totalAmount, fundChild.fund.goalAmount, false, 0)]"/>
               </div>
             </q-card-section>
-            <q-card-actions align="center" :class="fundChild.fund.ended ? 'bg-indigo' : ''">
-              <div v-if="fundChild.fund.ended">
+            <q-card-actions align="center" :class="fundChild.fund.ended || fundChild.expiredTime ? 'bg-indigo' : ''">
+              <div v-if="fundChild.fund.ended || fundChild.expiredTime">
                 <div class="q-pa-sm text-subtitle2 text-white">이미 펀딩이 종료되었어요.</div>
               </div>
               <div v-else>
-                <q-btn class="execSignal" text flat @click="openFund(fundChild.id, fundChild.fund.name)">펀딩하기</q-btn>
+                <q-btn text flat class="text-amber" @click="openFund(fundChild.id, fundChild.fund.name)">펀딩하기</q-btn>
+                <q-btn text flat class="text-amber" @click="checkGoalFund(fundChild.id)">검사하기</q-btn>
               </div>
             </q-card-actions>
           </q-card>
@@ -133,10 +140,49 @@ export default {
 
       for (let i = 0; i < fundCnt; i++) {
         const fund = await getContractInstance().methods['funds(uint256)'](i).call()
-        state.fundList.push({id: i, fund})
+        const expiredTime = checkTime(fund.deadline)
+        state.fundList.push(
+          {
+            id: i,
+            expiredTime: expiredTime,
+            fund
+          }
+        )
       }
       if (state.isDevelopment) {
         console.log(state.fundList)
+      }
+    }
+
+    const checkGoalFund = async function (id) {
+      const { getContractInstance } = useChainInfo()
+      window.accounts = await ethereum.request({ method: 'eth_requestAccounts' })
+
+      try {
+        if (getContractInstance() != null) {
+          const value = await getContractInstance().methods['checkGoalReached(uint256)'](id).send({
+            from: accounts[0]
+          })
+          if (state.isDevelopment) {
+            console.log(value)
+          }
+        }
+      } catch (error) {
+        alert('Transaction 생성 중 문제가 발생되었습니다 !')
+        if (state.isDevelopment) {
+          console.log(error)
+        }
+      }
+    }
+
+    const checkTime = function (unixTime) {
+      const date = new Date().getTime()
+
+      /* 만약에, 현재 시간보다 펀딩 시간이 더 크다면 종료된 것으로 판단 */
+      if (date > unixTime) {
+        return true;
+      } else {
+        return false;
       }
     }
 
@@ -184,19 +230,19 @@ export default {
       }, 5000)
     }
 
-    const convertFundStr = function (str) {
+    const convertFundStr = function (str, isExpiredTime, percentage) {
       let tmp = ''
-      if (str.includes('Campaign Failed')) {
+      if (str.includes('Campaign Failed') || (isExpiredTime && percentage < 100)) {
         tmp = '펀딩에 성공하지 못했어요.'
-      } else if (str.includes('Funding')) {
+      } else if (str.includes('Funding') && !isExpiredTime) {
         tmp = '펀딩 중'
-      } else if (str.includes('Campaign Succeeded')) {
+      } else if (str.includes('Campaign Succeeded') || (isExpiredTime && percentage >= 100)) {
         tmp = '펀딩에 성공했어요 !'
       }
       return tmp
     }
 
-    const convertData = function (totalAmount, goalAmount) {
+    const convertAmount = function (totalAmount, goalAmount) {
       const tmpAmount = (totalAmount / goalAmount) * 100
       return parseInt(tmpAmount)
     }
@@ -267,8 +313,10 @@ export default {
       openAlert,
       openFund,
       execFund,
+      checkTime,
+      checkGoalFund,
       convertFundStr,
-      convertData,
+      convertAmount,
       Unix_timestamp
     }
   },

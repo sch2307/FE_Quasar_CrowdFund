@@ -48,7 +48,7 @@
             <q-item-label>펀딩 현황 조회</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable tag="a" target="_blank" href="https://github.com/sch2307/FE_Quaser_CrowdFund">
+        <q-item clickable tag="a" target="_blank" href="https://github.com/sch2307/FE_Quasar_CrowdFund">
           <q-item-section avatar>
             <q-icon name="fab fa-github"/>
           </q-item-section>
