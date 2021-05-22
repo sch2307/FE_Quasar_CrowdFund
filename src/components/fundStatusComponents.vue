@@ -76,7 +76,7 @@
                   </div>
                 </div>
                 <apex-multiple-radial-bars
-                  :series="[convertAmount(fundChild.fund.totalAmount, fundChild.fund.goalAmount, false, 0)]"/>
+                  :series="[convertAmount(fundChild.fund.totalAmount, fundChild.fund.goalAmount)]"/>
               </div>
             </q-card-section>
             <q-card-actions align="center" :class="fundChild.fund.ended || fundChild.expiredTime ? 'bg-indigo' : ''">
