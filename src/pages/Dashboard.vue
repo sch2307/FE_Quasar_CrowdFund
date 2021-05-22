@@ -1,13 +1,13 @@
 <template>
   <q-page class="container" style="background: #343E59">
-    <introduce-components />
+    <sign-metamask />
   </q-page>
 </template>
 
 <script>
-import IntroduceComponents from "components/introduceComponents";
+import signMetamask from "components/signMetamask";
 export default {
   name: 'PageIndex',
-  components: { IntroduceComponents }
+  components: { signMetamask }
 }
 </script>

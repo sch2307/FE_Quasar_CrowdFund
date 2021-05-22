@@ -1,6 +1,6 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+  <q-layout view="hHh LpR lFf">
+    <q-header elevated class="bg-custom-blue-dark text-white">
       <q-toolbar>
         <q-btn
           flat
@@ -10,98 +10,74 @@
           aria-label="Menu"
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
-
         <q-toolbar-title>
-          Quasar App
+          KMU Tree Funding
         </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
 
     <q-drawer
       v-model="leftDrawerOpen"
       show-if-above
-      bordered
-      content-class="bg-grey-1"
+      elevated
+      content-class="bg-custom-blue-dark"
     >
-      <q-list>
-        <q-item-label
-          header
-          class="text-grey-8"
-        >
-          Essential Links
-        </q-item-label>
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
+      <q-list class="text-white">
+        <q-item-label header>Menu</q-item-label>
+        <q-item clickable to="/" exact active-class="text-purple-3">
+          <q-item-section avatar>
+            <q-icon name="fas fa-home"/>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>홈</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item clickable to="/Dashboard" exact active-class="text-purple-3">
+          <q-item-section avatar>
+            <q-icon name="fas fa-sign-in-alt"/>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>메타마스크 로그인</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item clickable to="/FundStatus" exact active-class="text-purple-3">
+          <q-item-section avatar>
+            <q-icon name="fas fa-chart-bar"/>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>펀딩 현황 조회</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item clickable tag="a" target="_blank" href="https://github.com/sch2307/FE_Quaser_CrowdFund">
+          <q-item-section avatar>
+            <q-icon name="fab fa-github"/>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>GitHub로 이동하기</q-item-label>
+          </q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 
     <q-page-container>
-      <router-view />
+      <router-view/>
     </q-page-container>
   </q-layout>
 </template>
 
 <script>
-import EssentialLink from 'components/EssentialLink.vue'
-
-const linksData = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-];
-
 export default {
   name: 'MainLayout',
-  components: { EssentialLink },
-  data () {
+  setup() {
     return {
       leftDrawerOpen: false,
-      essentialLinks: linksData
     }
   }
 }
 </script>
+
+<style>
+.bg-custom-blue-dark {
+  background: #2B2D3E;
+}
+</style>
