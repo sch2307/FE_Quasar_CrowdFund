@@ -25,7 +25,7 @@
             <div class="q-pa-lg">
               <div class="q-gutter-sm">
                 <div class="text-center">
-                  <p class="text-h4 text-accent text-weight-bold">펀딩 하기</p>
+                  <p class="text-h4 text-indigo text-weight-bold">펀딩 하기</p>
                   <p class="text-subtitle1">펀딩하고 싶은 금액을 입력해주세요.</p>
                 </div>
                 <div class="q-ma-3">
@@ -79,13 +79,13 @@
                   :series="[convertAmount(fundChild.fund.totalAmount, fundChild.fund.goalAmount)]"/>
               </div>
             </q-card-section>
-            <q-card-actions align="center" :class="fundChild.fund.ended || fundChild.expiredTime ? 'bg-indigo' : ''">
+            <q-card-actions align="center" :class="fundChild.fund.ended || fundChild.expiredTime ? 'bg-indigo' : 'bg-blue-grey-1'">
               <div v-if="fundChild.fund.ended || fundChild.expiredTime">
                 <div class="q-pa-sm text-subtitle2 text-white">이미 펀딩이 종료되었어요.</div>
               </div>
               <div v-else>
-                <q-btn text flat class="text-amber" @click="openFund(fundChild.id, fundChild.fund.name)">펀딩하기</q-btn>
-                <q-btn text flat class="text-amber" @click="checkGoalFund(fundChild.id)">검사하기</q-btn>
+                <q-btn text flat class="q-mr-md text-red" @click="openFund(fundChild.id, fundChild.fund.name)">펀딩하기</q-btn>
+                <q-btn text flat class="q-ml-md text-black" @click="checkGoalFund(fundChild.id)">검사하기</q-btn>
               </div>
             </q-card-actions>
           </q-card>

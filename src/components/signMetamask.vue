@@ -25,7 +25,7 @@
             <div class="q-pa-md">
               <div class="q-gutter-sm">
                 <div class="text-center">
-                  <p class="text-h4 text-accent text-weight-bold">Tree Fund 생성하기</p>
+                  <p class="text-h4 text-indigo text-weight-bold">Tree Fund 생성하기</p>
                   <p class="text-subtitle1">새로운 Tree Fund를 생성합니다! 다음과 같은 정보를 입력해주세요 !</p>
                 </div>
                 <div class="q-ma-3">
