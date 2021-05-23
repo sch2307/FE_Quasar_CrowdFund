@@ -179,7 +179,7 @@ export default {
       const date = new Date().getTime()
 
       /* 만약에, 현재 시간보다 펀딩 시간이 더 크다면 종료된 것으로 판단 */
-      if (date > unixTime) {
+      if ((date / 1000) - unixTime > 0) {
         return true;
       } else {
         return false;
