@@ -2,25 +2,33 @@
 
 A CrowdFund App
 
-## Install the dependencies
+## install the Yarn(Mac)
 ```bash
-yarn
+brew install yarn
 ```
 
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
+## install the Yarn(Linux)
+```bash
+npm install -g yarn
+```
+
+## Install the dependencies
+```bash
+yarn install
+```
+
+### Start the app (hot-code reloading, error reporting, etc.)
 ```bash
 quasar dev
 ```
 
-### Lint the files
+### Solidity file location
 ```bash
-yarn run lint
+FE_Quasar_CrowdFund(Current Directories)/src/contract/SmartTreeFunding.sol
 ```
 
-### Build the app for production
+### Abiobj / Smart Contract Address location
 ```bash
-quasar build
+FE_Quasar_CrowdFund(Current Directories)/src/state/chains/index.js
 ```
 
-### Customize the configuration
-See [Configuring quasar.conf.js](https://v1.quasar.dev/quasar-cli/quasar-conf-js).

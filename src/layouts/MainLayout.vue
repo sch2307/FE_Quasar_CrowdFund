@@ -48,12 +48,20 @@
             <q-item-label>펀딩 현황 조회</q-item-label>
           </q-item-section>
         </q-item>
+        <q-item clickable tag="a" target="_blank" href="https://youtu.be/zOEHw71rMVw">
+          <q-item-section avatar>
+            <q-icon name="fab fa-youtube"/>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>YouTube 로 이동하기</q-item-label>
+          </q-item-section>
+        </q-item>
         <q-item clickable tag="a" target="_blank" href="https://github.com/sch2307/FE_Quasar_CrowdFund">
           <q-item-section avatar>
             <q-icon name="fab fa-github"/>
           </q-item-section>
           <q-item-section>
-            <q-item-label>GitHub로 이동하기</q-item-label>
+            <q-item-label>GitHub 로 이동하기</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
